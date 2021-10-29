@@ -1,33 +1,66 @@
 package ch.ceff.labyrinthe;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
-public class Labyrinthe extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
+import java.util.EnumMap;
+
+import ch.ceff.labyrinthe.config.GameConfig;
+import ch.ceff.labyrinthe.screen.game.GameScreen;
+
+public class Labyrinthe extends Game {
+	private static final String TAG = Labyrinthe.class.getSimpleName();
+
+	private AssetManager assetManager;		//Gestionnaire des ressources
+	private SpriteBatch spriteBatch; 		//Affichage des BMP (PNG)
+	private ShapeRenderer shapeRenderer;	//Affichage des formes géométriques
+
+	//Structure de stockage des fenêtres de l'application
+	//Map est une structure qui utilise le stockage : <clé><valeur>
+	private FitViewport screenViewport;
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+
+		Gdx.app.log(TAG, GameConfig.WORLD_HEIGHT + ", " + GameConfig.WORLD_WIDTH);
+		shapeRenderer = new ShapeRenderer();
+
+		setScreen(new GameScreen());
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+		super.render();
 	}
-	
+
+	public FitViewport getScreenViewport() {
+		return screenViewport;
+	}
+
 	@Override
 	public void dispose () {
-		batch.dispose();
-		img.dispose();
+
+	}
+
+	public AssetManager getAssetManager() {
+		return assetManager;
+	}
+
+	public SpriteBatch getSpriteBatch() {
+		return spriteBatch;
+	}
+
+	public ShapeRenderer getShapeRenderer() {
+		return shapeRenderer;
 	}
 }
