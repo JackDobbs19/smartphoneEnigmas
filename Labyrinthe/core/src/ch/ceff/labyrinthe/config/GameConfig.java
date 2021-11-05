@@ -3,8 +3,8 @@ package ch.ceff.labyrinthe.config;
 public class GameConfig {
     ///Fenêtre
     public static final String TITLE = "Labyrinthe";
-    public static final int WIDTH = 1024; //1280;
-    public static final int HEIGHT = 768; //960;
+    public static final int WIDTH = 1080; //1280;
+    public static final int HEIGHT = 1920; //960;
 
     ///Monde
     public static final float PPM = 100; ///Pixels Per Meter --> 50px = 1m

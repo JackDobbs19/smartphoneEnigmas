@@ -7,8 +7,8 @@ public class Ball {
     private int size;
 
     public Ball() {
-        this.position = new Vector2(2, 2);
-        this.size = 20;
+        this.position = new Vector2(0, 0);
+        this.size = 50;
     }
 
     public Vector2 getPosition() {

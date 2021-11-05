@@ -32,7 +32,6 @@ public class Labyrinthe extends Game {
 	public void create () {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
-		Gdx.app.log(TAG, GameConfig.WORLD_HEIGHT + ", " + GameConfig.WORLD_WIDTH);
 		shapeRenderer = new ShapeRenderer();
 
 		setScreen(new GameScreen());

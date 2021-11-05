@@ -6,6 +6,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -23,7 +24,6 @@ public class GameScreen extends ScreenAdapter {
     private final Viewport gameViewport;
     private final SpriteBatch spriteBatch;
     private final ShapeRenderer shapeRenderer;
-    private final Ball ball;
 
     private final Vector2 touchpos; //1 copie
 
@@ -33,15 +33,13 @@ public class GameScreen extends ScreenAdapter {
         spriteBatch = Utils.getSpriteBatch();
         shapeRenderer = Utils.getShapeRenderer();
 
-        ball = new Ball();
-
         touchpos = new Vector2();
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                touchpos.set(screenX,screenY);
-                gameViewport.unproject(touchpos); //point de click --> m
+                touchpos.set((float)screenX, (float)screenY);
+                touchpos.set(gameViewport.unproject(touchpos)); //point de click --> m
                 return controller.touchDown(touchpos, pointer, button);
             }
 
@@ -51,7 +49,19 @@ public class GameScreen extends ScreenAdapter {
                 gameViewport.unproject(touchpos); //point de click --> m
                 return controller.touchUp();
             }
+
+            @Override
+            public boolean touchDragged(int screenX, int screenY, int pointer) {
+                touchpos.set((float)screenX, (float)screenY);
+                touchpos.set(gameViewport.unproject(touchpos)); //point de click --> m
+                return controller.touchDragged(touchpos, pointer);
+            }
         });
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        gameViewport.update(width, height, true);
     }
 
     @Override
@@ -63,7 +73,7 @@ public class GameScreen extends ScreenAdapter {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.BLACK);
-        shapeRenderer.circle(2, 2, ball.getSize());
+        shapeRenderer.circle(controller.getBall().getPosition().x * GameConfig.PPM, controller.getBall().getPosition().y * GameConfig.PPM, controller.getBall().getSize());
         shapeRenderer.end();
     }
 }
